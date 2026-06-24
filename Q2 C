@@ -1,0 +1,36 @@
+def bin_packing(items, capacity):
+
+    bins = []
+    min_bins = [float('inf')]
+
+    def backtrack(index):
+
+        if len(bins) >= min_bins[0]:
+            return
+
+        if index == len(items):
+            min_bins[0] = len(bins)
+            return
+
+        item = items[index]
+
+        for i in range(len(bins)):
+
+            if bins[i] + item <= capacity:
+
+                bins[i] += item
+                backtrack(index + 1)
+                bins[i] -= item
+
+        bins.append(item)
+        backtrack(index + 1)
+        bins.pop()
+
+    backtrack(0)
+
+    return min_bins[0]
+
+items = [4, 8, 1, 4, 2, 1]
+capacity = 10
+
+print("Minimum Number of Bins =", bin_packing(items, capacity))
